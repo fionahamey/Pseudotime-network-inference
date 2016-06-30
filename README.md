@@ -45,9 +45,9 @@ form "from.gene relation to.gene" where the relation is either 1 (indicating act
 The rules found will be written to the file gene_boolean_rules_step.txt along with their score.
 
 ## Example script
-Running this line of code would identify regulatory rules for *Bptf* in the MEP network. 
+Running this line of code would identify regulatory rules for *Bptf* in the LMPP network. 
 
-```python booleanRules.py Bptf binary_expression_MEP.txt 5 MEP_trajectory_order.txt 2 2 startingNetworkParCor.txt 0.95 0.05```
+```python booleanRules.py Bptf binary_expression_LMPP.txt 5 LMPP_trajectory_order.txt 2 2 startingNetworkParCor.txt 0.95 0.05```
 
 ## Acknowledgements
 I would like to thank Steven Woodhouse for help in writing the encoding of the Boolean functions - his scripts from the 
