@@ -14,7 +14,7 @@ networkFile = sys.argv[7]
 
 # Read in expression matrix
 expression = pd.read_table(expressionFile,  sep = "\t",
-		                                 index_col = 0, header = 0)
+                                         index_col = 0, header = 0)
 
 # Read in network 
 network = pd.read_table(networkFile, sep = "\t", header = 0)
@@ -112,20 +112,20 @@ def enforceLexigraphicalOrderingNaryGate(vars):
 
 
 # Store the activator and repressor variables in a list    
-activatorVars = ["a" + str(i) for i in xrange(7)]
-repressorVars = ["r" + str(i) for i in xrange(7)]
+activatorVars = ["a" + str(i) for i in range(7)]
+repressorVars = ["r" + str(i) for i in range(7)]
 circuitVars = activatorVars + repressorVars
 
 # Depending on maximum number of inputs may want fewer nodes
 def fixMaxInputs(v, max):
     if max == 0:
-	return makeCircuitVar(v+"0") == NOTHING
+        return makeCircuitVar(v+"0") == NOTHING
     elif max == 1:
-	return makeCircuitVar(v+"2") == NOTHING
+        return makeCircuitVar(v+"2") == NOTHING
     elif max == 2:
-	return makeCircuitVar(v+"4") == NOTHING
+        return makeCircuitVar(v+"4") == NOTHING
     elif max == 3:
-	return makeCircuitVar(v+"6") == NOTHING
+        return makeCircuitVar(v+"6") == NOTHING
     else:
         return True
         
@@ -143,8 +143,8 @@ def encodeUpdateFunction(gene, genes, maxActivators, maxRepressors, possAct, pos
     assert (gene in genes and maxActivators > 0 and maxActivators <= 4 and maxRepressors >= 0 and maxRepressors <= 4), \
         "Incorrect arguments to encodeUpdateFunction"
         
-    a = [makeCircuitVar("a%i" %i) for i in xrange(7)]
-    r = [makeCircuitVar("r%i" %i) for i in xrange(7)]
+    a = [makeCircuitVar("a%i" %i) for i in range(7)]
+    r = [makeCircuitVar("r%i" %i) for i in range(7)]
     
     circuitEncoding = z3.And(variableDomains(a[0], True, possAct), \
                             variableDomains(r[0], True, possRep + [NOTHING]), \

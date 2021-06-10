@@ -172,12 +172,12 @@ def findFunctions(solver, gene, genes, nodeLookUp, nodeList, maxActivators, maxR
         solver.add(z3.And(allConstraints, constraints))
         
         possibleRules.append((m, totalScore))
-	print 'found rule'
+        print('found rule')
 
         if len(possibleRules) >= 100:
             newThreshold = max([s[1] for s in possibleRules])
             displayThreshold = float(newThreshold)/len(inputOutput)
-            print 'Finding too many rules. So now increase threshold to %f' %displayThreshold 
+            print ('Finding too many rules. So now increase threshold to %f' %displayThreshold)
             
             solver.reset()
             allConstraints = z3.And(circuitEncoding, agreesAtLeastNTimes(inputOutput, expressionBool, gene, aVars, rVars, \
@@ -202,7 +202,7 @@ def findFunctions(solver, gene, genes, nodeLookUp, nodeList, maxActivators, maxR
                 solver.add(z3.And(allConstraints, constraints))
 
                 possibleRules.append((m, totalScore))
-                print "found rule"
+                print("found rule")
 
         
     return possibleRules, z3.And(allConstraints)
@@ -214,17 +214,17 @@ def findBestRuleForGene(gene, genes, nodeLookUp, nodeList, maxActivators, maxRep
     for k in range(20):
         s.reset()
         agreement = threshold - thresholdStep*k
-        print 'Lowered threshold to %f' %agreement
+        print('Lowered threshold to %f' %agreement)
         rules, allConstraints = findFunctions(s, gene, genes, nodeLookUp, nodeList, maxActivators, maxRepressors, inputOutput, expression, agreement)
-	convertedRules = [ruleConvert(r) for r in rules]
-	geneInRules = []
-	conRules = [x[0] for x in convertedRules]
-	for r in conRules:
-	    geneInRules.append(s[1] for s in r)
-	if len(rules) > 0 and not all(g in r for r in geneInRules):
-	    break
+        convertedRules = [ruleConvert(r) for r in rules]
+        geneInRules = []
+        conRules = [x[0] for x in convertedRules]
+        for r in conRules:
+            geneInRules.append(s[1] for s in r)
+        if len(rules) > 0 and not all(g in r for r in geneInRules):
+            break
     
-    print 'Found %d rules for gene satisfying threshold %f' %(len(rules),agreement)
+    print('Found %d rules for gene satisfying threshold %f' %(len(rules),agreement))
     return rules, agreement, allConstraints
     
 
@@ -328,12 +328,12 @@ def evaluateRule(rule, input0, input1, input2):
            
            
 g = sys.argv[1]
-print 'Trying to find rules for %s' %g
+print('Trying to find rules for %s' %g)
 expressBool = expression == 1
 
 geneRules, agreement, solver = findBestRuleForGene(g, allNames, nodeLookUp, nodeList, maxAct, maxRep, inputOutputSelection, expression)
 rulesForGene = [ruleConvert(r) for r in geneRules]
-print 'Converted to readable format'
+print('Converted to readable format')
 
 def scoreForRule(rule):
     raw = 0
@@ -361,7 +361,7 @@ def scoreForRule(rule):
     return (score, rule)
     
 scoreRules = [(scoreForRule(r[0]),'z3 score %f' %r[1]) for r in rulesForGene]
-print 'Found agreement level for each rule'
+print('Found agreement level for each rule')
 bestRule = max(scoreRules, key=lambda x: x[0])
 maxValue = bestRule[0][0]
 allBest = []
@@ -369,11 +369,11 @@ for rule in scoreRules:
     if rule[0][0] == maxValue:
         allBest.append(rule)
     
-print 'The best rules are %s' %str(allBest)
+print('The best rules are %s' %str(allBest))
 
 scoreRules = sorted(scoreRules, key=lambda x: x[0][0], reverse = True)
 
-print 'Writing the rules to a file'    
+print('Writing the rules to a file')
 f=open('%s_boolean_rules_%d.txt' % (g, step),'w')
 f.write('Agreement level = %f \n' %agreement)
 f.write('The best rules were:\n')
@@ -384,6 +384,6 @@ for item in scoreRules:
     f.write("%s\n" %str(item))
 f.close()
 
-print 'Found rules for %s' %g
+print('Found rules for %s' %g)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
